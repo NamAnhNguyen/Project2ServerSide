@@ -1,0 +1,54 @@
+import BaseController from './BaseController'
+import Branch from '../Models/Branch'
+import Topic from '../Models/Topic'
+import ApiException from '../Exceptions/ApiException'
+class TopicController extends BaseController {
+    Model: any = Topic;
+    BranchModel: any = Branch;
+
+    async store(inputs: any): Promise<void> {
+
+        try {
+            let { name } = inputs
+            if (!name) throw new ApiException(6011, "Missing name");
+
+            let { branchId } = inputs
+            if (!branchId) throw new ApiException(6013, "Missing branchId");
+
+            let checkExistBranch = await this.BranchModel.findById(branchId);
+            if (!checkExistBranch) throw new ApiException(6003, "Branch is not exist");
+
+            let checkExist = await this.Model.findOne({ name })
+            if (checkExist) throw new ApiException(6017, "Topic is exist");
+
+            let result = await this.Model.query().insert(inputs);
+            return result;
+        } catch (error) {
+            return error
+        }
+    }
+
+    async update(inputs: any): Promise<void> {
+
+        try {
+            let { id } = inputs
+            if (!id) throw new ApiException(6012, "Missing id");
+
+            let { branchId } = inputs
+            if (branchId) {
+                let checkExistBranch = await this.BranchModel.findById(branchId);
+                if (!checkExistBranch) throw new ApiException(6003, "Branch is not exist");
+            }
+            
+            let checkExist = await this.Model.findById(id)
+            if (!checkExist) throw new ApiException(6014, "Topic is not exist");
+
+            let result = await checkExist.patchAndFetch(inputs);
+            console.log(checkExist)
+            return result;
+        } catch (error) {
+            return error
+        }
+    }
+}
+export default TopicController
