@@ -1,10 +1,10 @@
-import * as  express from "express"
+import express from "express"
 const cors = require("cors")
 const bodyParser = require('body-parser');
 
 import BranchApi from './Routes/BranchApi'
 import TopicApi from './Routes/TopicApi'
-
+import LectureApi from './Routes/LectureApi'
 const APP = express();
 APP.use(cors());
 APP.use([
@@ -25,3 +25,4 @@ APP.listen(8082, () => {
 
 APP.use("/branches", BranchApi)
 APP.use("/topics", TopicApi)
+APP.use("/lectures", LectureApi)

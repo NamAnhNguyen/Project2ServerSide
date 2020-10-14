@@ -27,7 +27,7 @@ class BranchController extends BaseController {
             if (!id) throw new ApiException(6002, "Missing id");
 
             let checkExist = await this.Model.findById(id)
-            if (!checkExist) throw new ApiException(6003, "Branch is not exist");
+            if (!checkExist) throw new ApiException(6004, "Branch is not exist");
 
             let result = await checkExist.patchAndFetch(inputs);
             console.log(checkExist)

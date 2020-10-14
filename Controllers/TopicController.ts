@@ -37,7 +37,7 @@ class TopicController extends BaseController {
             let { branchId } = inputs
             if (branchId) {
                 let checkExistBranch = await this.BranchModel.findById(branchId);
-                if (!checkExistBranch) throw new ApiException(6003, "Branch is not exist");
+                if (!checkExistBranch) throw new ApiException(6004, "Branch is not exist");
             }
             
             let checkExist = await this.Model.findById(id)

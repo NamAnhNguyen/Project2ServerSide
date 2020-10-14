@@ -1,4 +1,4 @@
-import * as knex from 'knex'
+import knex from 'knex'
 
 const builder = knex({
     client: 'pg',
