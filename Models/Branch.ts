@@ -8,10 +8,10 @@ class Branch extends BaseModel {
     static get jsonSchema() {
         return {
             type: "object",
-            required: ['name'],
+            required: ['title'],
             properties: {
                 id: { type: 'integer' },
-                name: { type: 'string' },
+                title: { type: 'string' },
                 description: { type: ['string' || 'null'], minLength: 1, maxLength: 255 },
             }
         }

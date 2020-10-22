@@ -7,10 +7,10 @@ class BranchController extends BaseController {
     async store(inputs: any): Promise<void> {
 
         try {
-            let { name } = inputs
-            if (!name) throw new ApiException(6001, "Missing name");
+            let { title } = inputs
+            if (!title) throw new ApiException(6001, "Missing title");
 
-            let checkExist = await this.Model.findOne({ name })
+            let checkExist = await this.Model.findOne({ title })
             if (checkExist) throw new ApiException(6003, "Branch is exist");
 
             let result = await this.Model.query().insert(inputs);

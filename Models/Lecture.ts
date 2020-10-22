@@ -8,10 +8,10 @@ class Lecture extends BaseModel {
     static get jsonSchema() {
         return {
             type: "object",
-            required: ['name', 'pathFile', 'topicId'],
+            required: ['title', 'pathFile', 'topicId'],
             properties: {
                 id: { type: 'integer' },
-                name: { type: 'string' },
+                title: { type: 'string' },
                 topicId: { type: 'integer' },
                 description: { type: ['string' || 'null'], minLength: 1, maxLength: 255 },
                 pathFile: { type: 'string' },

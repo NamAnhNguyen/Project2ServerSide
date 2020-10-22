@@ -23,6 +23,8 @@ APP.listen(8082, () => {
     console.log('SERVER IS LISTENING AT PORT 8082');
 });
 
+APP.use(express.static('public'))
+
 APP.use("/branches", BranchApi)
 APP.use("/topics", TopicApi)
 APP.use("/lectures", LectureApi)

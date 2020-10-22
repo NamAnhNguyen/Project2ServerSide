@@ -4,7 +4,7 @@ import * as Knex from "knex";
 export async function up(knex: Knex): Promise<void> {
     return knex.schema.createTable('lectures', function (table) {
         table.increments();
-        table.string('name').notNullable();
+        table.string('title').notNullable();
         table.text('description');
         table.integer('topicId').unsigned().nullable();
         table.foreign('topicId').references('id').inTable('topics')

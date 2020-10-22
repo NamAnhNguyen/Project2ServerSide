@@ -8,10 +8,10 @@ class Topic extends BaseModel {
     static get jsonSchema() {
         return {
             type: "object",
-            required: ['name', 'branchId'],
+            required: ['title', 'branchId'],
             properties: {
                 id: { type: 'integer' },
-                name: { type: 'string' },
+                title: { type: 'string' },
                 branchId: { type: 'integer' },
                 description: { type: ['string' || 'null'], minLength: 1, maxLength: 255 },
             }

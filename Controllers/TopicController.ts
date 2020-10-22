@@ -9,8 +9,8 @@ class TopicController extends BaseController {
     async store(inputs: any): Promise<void> {
 
         try {
-            let { name } = inputs
-            if (!name) throw new ApiException(6011, "Missing name");
+            let { title } = inputs
+            if (!title) throw new ApiException(6011, "Missing title");
 
             let { branchId } = inputs
             if (!branchId) throw new ApiException(6013, "Missing branchId");
@@ -18,7 +18,7 @@ class TopicController extends BaseController {
             let checkExistBranch = await this.BranchModel.findById(branchId);
             if (!checkExistBranch) throw new ApiException(6003, "Branch is not exist");
 
-            let checkExist = await this.Model.findOne({ name })
+            let checkExist = await this.Model.findOne({ title })
             if (checkExist) throw new ApiException(6017, "Topic is exist");
 
             let result = await this.Model.query().insert(inputs);

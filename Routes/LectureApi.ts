@@ -27,15 +27,21 @@ router.post("/", upload.any(), async (req: Request, res: Response, next): Promis
 })
 
 router.get("/:id", async (req: Request, res: Response, next): Promise<void> => {
+    console.log("in")
     lectureController.detail(req.body).then((data) => {
+        console.log(data)
         res.send(data)
     }).catch((ex) => {
         console.log("Error happened", ex);
     })
 })
 
-router.put("/:id", async (req: Request, res: Response, next): Promise<void> => {
-    lectureController.update(req.body).then((data) => {
+router.put("/:id", upload.any(), async (req: Request, res: Response, next): Promise<void> => {
+    let inputs = {
+        ...req.body,
+        files: req.files,
+    }
+    lectureController.update(inputs).then((data) => {
         res.send(data)
     }).catch((ex) => {
         console.log("Error happened", ex);

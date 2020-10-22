@@ -4,15 +4,16 @@ import Lecture from '../Models/Lecture'
 import ApiException from '../Exceptions/ApiException'
 import { v4 as uuidv4 } from 'uuid'
 import Upload from '@root/Utils/Upload'
-import _ from 'lodash'
+import _, { isEmpty } from 'lodash'
 class TopicController extends BaseController {
     Model: any = Lecture;
     TopicModel: any = Topic;
 
     async store(inputs: any): Promise<void> {
+        // console.log(inputs)
         try {
-            let { name } = inputs
-            if (!name) throw new ApiException(6021, "Missing name");
+            let { title } = inputs
+            if (!title) throw new ApiException(6021, "Missing title");
 
             let { topicId } = inputs
             topicId = Number(topicId)
@@ -22,7 +23,7 @@ class TopicController extends BaseController {
             let checkExistTopic = await this.TopicModel.findById(topicId);
             if (!checkExistTopic) throw new ApiException(6014, "Topic is not exist");
 
-            let checkExist = await this.Model.findOne({ name })
+            let checkExist = await this.Model.findOne({ title })
             if (checkExist) throw new ApiException(6025, "Topic is exist");
 
             let files = inputs.files;
@@ -33,6 +34,7 @@ class TopicController extends BaseController {
                 throw new ApiException(500, "Can not upload more than 1 file per Lecture");
 
             let { fileName, fileSize, path } = this.handleSaveFile(files[0]);
+            console.log(path)
             inputs.pathFile = path
             console.log(inputs)
 
@@ -47,8 +49,10 @@ class TopicController extends BaseController {
 
         try {
             let { id } = inputs
-            if (!id) throw new ApiException(6012, "Missing id");
+            delete inputs.id
+            id = Number(id)
 
+            if (!id || id == NaN) throw new ApiException(6012, "Missing id");
             let { topicId } = inputs
             if (topicId) {
                 let checkExistBranch = await this.TopicModel.findById(topicId);
@@ -56,8 +60,23 @@ class TopicController extends BaseController {
             }
 
             let checkExist = await this.Model.findById(id)
-            if (!checkExist) throw new ApiException(6024, "Topic is not exist");
+            console.log(checkExist)
+            if (!checkExist) throw new ApiException(6024, "Lecture is not exist");
 
+            
+            let files = inputs.files;
+            delete inputs.files;
+
+            if (files.length === 0) throw new ApiException(500, "File is require");
+            if (files.length > 1)
+                throw new ApiException(500, "Can not upload more than 1 file per Lecture");
+
+            let { fileName, fileSize, path } = this.handleSaveFile(files[0]);
+            console.log(path)
+            inputs.pathFile = path
+            console.log(inputs)
+
+            if (isEmpty(inputs)) return checkExist
             let result = await checkExist.patchAndFetch(inputs);
             return result;
         } catch (error) {
@@ -66,6 +85,7 @@ class TopicController extends BaseController {
     }
 
     handleSaveFile(file: any) {
+        // console.log(file)
         if (_.isEmpty(file)) throw new ApiException(9996, "File is required");
         let fileName: string = file.originalname;
         let fileExtension: string = this.getFileExtension(fileName);
@@ -73,6 +93,7 @@ class TopicController extends BaseController {
         let fileSize: number = file.size;
         let directory = './public/pdf'
         let path = `/pdf/${localName}`;
+        console.log(path)
         try {
             let result = Upload.saveToDisk({
                 directory,
@@ -80,6 +101,7 @@ class TopicController extends BaseController {
                 fileName: localName,
                 overwrite: true
             })
+            console.log(result)
         } catch (error) {
             throw new Error(error);
         }
