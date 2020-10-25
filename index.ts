@@ -7,6 +7,7 @@ import TopicApi from './Routes/TopicApi'
 import LectureApi from './Routes/LectureApi'
 import QuestionTypeApi from './Routes/QuestionTypeApi'
 import QuestionLevelApi from './Routes/QuestionLevelApi'
+import QuestionApi from './Routes/QuestionApi'
 
 const APP = express();
 APP.use(cors());
@@ -33,3 +34,4 @@ APP.use("/topics", TopicApi)
 APP.use("/lectures", LectureApi)
 APP.use("/questionTypes", QuestionTypeApi)
 APP.use("/questionLevels", QuestionLevelApi)
+APP.use("/questions", QuestionApi)
