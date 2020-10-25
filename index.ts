@@ -5,6 +5,9 @@ const bodyParser = require('body-parser');
 import BranchApi from './Routes/BranchApi'
 import TopicApi from './Routes/TopicApi'
 import LectureApi from './Routes/LectureApi'
+import QuestionTypeApi from './Routes/QuestionTypeApi'
+import QuestionLevelApi from './Routes/QuestionLevelApi'
+
 const APP = express();
 APP.use(cors());
 APP.use([
@@ -28,3 +31,5 @@ APP.use(express.static('public'))
 APP.use("/branches", BranchApi)
 APP.use("/topics", TopicApi)
 APP.use("/lectures", LectureApi)
+APP.use("/questionTypes", QuestionTypeApi)
+APP.use("/questionLevels", QuestionLevelApi)
