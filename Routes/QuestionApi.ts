@@ -34,4 +34,12 @@ router.put("/:id", async (req: Request, res: Response, next): Promise<void> => {
         console.log("Error happened", ex);
     })
 })
+
+router.get("/getByLecture/:lectureId", async (req: Request, res: Response, next): Promise<void> => {
+    questionController.getByLecture(req.body).then((data) => {
+        res.send(data)
+    }).catch((ex) => {
+        console.log("Error happened", ex);
+    })
+})
 export default router

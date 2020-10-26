@@ -84,5 +84,16 @@ class QuestionController extends BaseController {
             return error
         }
     }
+
+    async getByLecture(inputs: any): Promise<void> {
+        try {
+            let { lectureId } = inputs
+            if (!lectureId) throw new ApiException(6056, "Missing Lecture ID");
+            let result = await this.Model.query().where("lectureId", "=", lectureId);
+            return result;
+        } catch (error) {
+            return error
+        }
+    }
 }
 export default QuestionController
