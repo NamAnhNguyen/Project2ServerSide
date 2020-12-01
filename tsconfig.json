@@ -13,12 +13,16 @@
             "@Ultils/*": [
                 "./Ultis"
             ],
+            "@Config/*": [
+                "./Config"
+            ],
 
         }
     },
     "include": [
         "./**/*.ts",
-        "./Utils"
+        "./Utils",
+        "./Config"
     ],
     "exclude": [
         "node_modules",
