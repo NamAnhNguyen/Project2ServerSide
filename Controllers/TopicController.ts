@@ -39,12 +39,26 @@ class TopicController extends BaseController {
                 let checkExistBranch = await this.BranchModel.findById(branchId);
                 if (!checkExistBranch) throw new ApiException(6004, "Branch is not exist");
             }
-            
+
             let checkExist = await this.Model.findById(id)
             if (!checkExist) throw new ApiException(6014, "Topic is not exist");
 
             let result = await checkExist.patchAndFetch(inputs);
             console.log(checkExist)
+            return result;
+        } catch (error) {
+            return error
+        }
+    }
+
+    async getByBranch(inputs: any): Promise<void> {
+        try {
+            let { branchId } = inputs
+            let checkExistBranch = await this.BranchModel.findById(branchId);
+            if (!checkExistBranch) throw new ApiException(6004, "Branch is not exist");
+
+            let result = await this.Model.query().where({ branchId });
+            console.log(result)
             return result;
         } catch (error) {
             return error
